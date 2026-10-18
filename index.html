@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#071016">
+<title>Darlington's Racing — Buea Open Roads</title>
+<style>
+:root{color-scheme:dark;--lime:#c8ff3d;--panel:#08131ce8;--stroke:#ffffff27}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#061016;color:#f5f7f6;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+body{background:radial-gradient(ellipse at 50% -20%,#284c5b 0%,#09171f 46%,#050b10 100%)}
+main{max-width:1200px;margin:auto;padding:12px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.brand small{font-size:10px;letter-spacing:3px;color:var(--lime);font-weight:900}.brand h1{font-size:clamp(22px,4vw,34px);letter-spacing:-1.3px;margin:2px 0;font-weight:1000;font-style:italic}.brand p{margin:0;color:#9fb3bd;font-size:12px}
+.pill{border:1px solid #c8ff3d55;background:#c8ff3d10;border-radius:999px;padding:9px 13px;font-size:11px;font-weight:900;letter-spacing:1px;color:var(--lime)}
+#stage{position:relative;overflow:hidden;border:1px solid #ffffff25;border-radius:16px;background:#101c24;box-shadow:0 25px 80px #0009}
+#game{width:100%;height:clamp(390px,63vw,680px);display:block;touch-action:none}
+.vignette{pointer-events:none;position:absolute;inset:0;background:linear-gradient(180deg,#030910b0,transparent 23%,transparent 72%,#030910c9),linear-gradient(90deg,#03091055,transparent 25%,transparent 75%,#03091055)}
+.hudtop{position:absolute;top:13px;left:13px;right:13px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}
+.hudbox{background:#07131cce;border:1px solid #ffffff26;backdrop-filter:blur(8px);border-radius:10px;padding:9px 12px;min-width:100px}
+.label{font-size:9px;letter-spacing:1.8px;color:#a5b8c0;font-weight:900}.value{font-size:20px;font-weight:950;letter-spacing:-.7px}.unit{font-size:10px;color:#a5b8c0}
+.hudbottom{position:absolute;left:14px;right:14px;bottom:13px;display:flex;align-items:end;justify-content:space-between;gap:10px;pointer-events:none}
+.place{font-size:11px;letter-spacing:1.5px;font-weight:950;text-shadow:0 2px 10px #000}.subplace{color:#b6c8cd;font-size:10px;margin-top:4px}
+.nitrobox{width:min(200px,38%);background:#07131cd9;border:1px solid #ffffff26;padding:10px;border-radius:10px}.nitrohead{display:flex;justify-content:space-between;font-size:9px;font-weight:900;letter-spacing:1px}.nitrobar{height:7px;background:#34434b;border-radius:8px;margin-top:7px;overflow:hidden}.nitrofill{height:100%;width:100%;background:linear-gradient(90deg,#3ee9ff,#c8ff3d);box-shadow:0 0 12px #3ee9ff88}
+.startscreen{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;background:linear-gradient(120deg,#06111be8,#06111b85 65%,#07121be8)}
+.startcard{max-width:520px}.eyebrow{font-size:10px;letter-spacing:3px;color:var(--lime);font-weight:950}.startcard h2{font-size:clamp(34px,7vw,68px);line-height:.92;letter-spacing:-2.8px;font-weight:1000;font-style:italic;margin:12px 0}.startcard p{color:#c0d0d6;font-size:13px;line-height:1.6;max-width:440px;margin:0 auto 18px}
+button,select{font:inherit;color:#f5f7f6;background:#101f29;border:1px solid #ffffff2e;border-radius:9px;min-height:44px;padding:10px 13px;font-weight:850}
+button{cursor:pointer;touch-action:manipulation}button:focus-visible,select:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.primary{background:var(--lime);color:#111a0a;border-color:var(--lime);padding:13px 22px;min-width:180px}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.controls button{min-height:55px;font-size:12px;letter-spacing:.5px}.controls button:active{background:var(--lime);color:#10170b}
+.settings{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:10px;padding:10px;background:#0c1a22;border:1px solid #ffffff17;border-radius:12px}.selects{display:flex;gap:8px;flex-wrap:wrap}.selects label{display:flex;align-items:center;gap:7px;color:#a8bac2;font-size:10px;letter-spacing:1px;font-weight:900}.selects select{max-width:190px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.stat{border:1px solid #ffffff16;background:#0a161e;border-radius:10px;padding:11px}.stat .label{font-size:9px}.stat strong{display:block;font-size:16px;margin-top:4px}
+.footer{font-size:11px;color:#8da2ac;line-height:1.55;margin:12px 2px 4px}
+@media(max-width:540px){main{padding:8px}.hudbox{min-width:0;padding:7px 9px}.value{font-size:17px}.hudtop{top:8px;left:8px;right:8px}.hudbottom{left:9px;right:9px;bottom:9px}.stats{grid-template-columns:repeat(2,1fr)}.selects{width:100%}.selects label{flex:1;min-width:140px}.selects select{min-width:0;width:100%}.controls button{padding:8px 3px;font-size:10px}.pill{font-size:9px}.startcard h2{letter-spacing:-1.5px}}
+</style>
+</head>
+<body>
+<main>
+<header class="top">
+ <div class="brand"><small>CAMEROON STREET SERIES / 2026</small><h1>🏁 DARLINGTON’S RACING</h1><p>OPEN ROADS · BUEA, SOUTHWEST CAMEROON</p></div>
+ <div class="pill">CAREER EDITION · V3.8 ENHANCED GRAPHICS</div>
+</header>
+<section id="stage" aria-label="Darlington's Racing 3D game">
+ <canvas id="game"></canvas><div class="vignette"></div>
+ <div class="hudtop">
+  <div class="hudbox"><div class="label">CURRENT SPEED</div><div class="value"><span id="speed">000</span> <span class="unit">KM/H</span></div></div>
+  <div class="hudbox" style="text-align:right"><div class="label">RACE SCORE</div><div class="value" id="score">000000</div></div>
+ </div>
+ <div class="hudbottom"><div><div class="place" id="place">📍 MOLYKO DISTRICT</div><div class="subplace" id="roadname">BUEA · SOUTHWEST REGION</div></div><div class="nitrobox"><div class="nitrohead"><span>NITRO SYSTEM</span><span id="nitrotext">100%</span></div><div class="nitrobar"><div class="nitrofill" id="nitrofill"></div></div></div></div>
+ <div class="startscreen" id="startscreen"><div class="startcard"><div class="eyebrow">YOUR CITY. YOUR RULES.</div><h2>OWN THE<br>STREETS.</h2><p>Build your reputation across a Buea-inspired driving route. Complete missions, earn credits, unlock career milestones, drift, race traffic and survive pursuits.</p><button class="primary" id="start">START ENGINE ↗</button><p style="font-size:10px;margin-top:13px">Version 3.8 upgrades lighting, sharper rendering, detailed cars and animated roadside spectators cheering, waving and filming the race. Internet required for the 3D engine.</p></div></div>
+</section>
+<div class="controls" aria-label="Driving controls">
+ <button id="left" aria-label="Steer left">◀ &nbsp; LEFT</button><button id="brake">▼ &nbsp; BRAKE</button><button id="right">RIGHT &nbsp; ▶</button><button id="nitro">⚡ &nbsp; NITRO</button>
+</div>
+<div class="settings">
+ <div class="selects">
+  <label>CAR <select id="car"><option value="red">R-9 Viper · Red Supercar</option><option value="blue">N-8 Phantom · Blue Hypercar</option><option value="yellow">GT Solaris · Yellow GT</option><option value="white">Aero RS · Pearl Coupe</option><option value="green">Rally X · Green Rally</option></select></label>
+  <label>MODE <select id="mode"><option value="free">Free Drive</option><option value="race">Street Race</option><option value="police">Police Pursuit</option><option value="time">Time Attack</option><option value="career">Career Mission</option></select></label>
+ </div>
+ <div style="display:flex;gap:7px;flex-wrap:wrap"><button id="drift">↗ DRIFT</button><button id="camera">◉ CAMERA: CHASE</button><button id="sound">♫ ENGINE: OFF</button><button id="music">▶ RANDOM RADIO: OFF</button><span id="trackName" style="align-self:center;color:#c8ff3d;font-size:11px">RADIO · READY</span><button id="pause">Ⅱ PAUSE</button><button id="night">☾ NIGHT LIGHTS</button><button id="restart">↻ RESTART</button></div>
+</div>
+<section id="radioPanel" style="margin-top:10px;padding:13px;border:1px solid #c8ff3d55;border-radius:12px;background:linear-gradient(110deg,#101c25,#111b18);color:#eef7f7">
+ <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><div style="color:#c8ff3d;font-size:11px;font-weight:800;letter-spacing:1.5px">DARLINGTON'S RADIO</div><strong style="font-size:17px;display:block;margin-top:4px">Your six-song playlist</strong><div style="font-size:11px;color:#a9bbc2;margin-top:4px">Import multiple audio files; they are saved on this device in this browser until you remove them or clear browser data.</div></div><label for="songFiles" class="primary" style="display:inline-block;cursor:pointer;padding:10px 13px;border-radius:8px;font-size:12px">＋ IMPORT SONGS</label><input id="songFiles" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg" multiple style="display:none"></div>
+ <div id="onlineSongList" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:7px;margin-top:11px"></div>
+ <select id="songSelect" aria-label="Choose imported song" style="width:100%;margin-top:10px;background:#10191d;color:#fff;border:1px solid #49605c;padding:10px;border-radius:8px"><option value="">Loading saved songs…</option></select><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px"><button id="removeSong" type="button">✕ REMOVE SELECTED SONG</button><span id="songStorageStatus" aria-live="polite" style="font-size:10px;color:#a9bbc2">Saved songs stay in this browser on this device.</span></div>
+ <audio id="realSongPlayer" controls preload="metadata" playsinline style="display:block;width:100%;height:42px;margin-top:9px"></audio>
+ <div style="font-size:10px;color:#93a7aa;margin-top:7px">Imported songs are saved in this browser on this device. They can be lost if you clear website data, use private browsing, or open the game in a different browser/device. iPhone may pause audio when Safari is backgrounded or the phone is off; saved does not mean it can play while the phone is powered off.</div>
+</section>
+<section id="sharedRadioPanel" style="margin-top:10px;padding:13px;border:1px solid #3ee9ff55;border-radius:12px;background:linear-gradient(110deg,#0b1d27,#101b20);color:#eef7f7">
+ <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><div style="color:#3ee9ff;font-size:11px;font-weight:900;letter-spacing:1.5px">DARLINGTON'S SHARED RADIO · CLOUD</div><strong style="display:block;font-size:17px;margin-top:4px">One playlist for everyone</strong><div style="font-size:11px;color:#a9bbc2;margin-top:4px">Songs published by the site owner appear for everyone using this same game link, on any phone or browser.</div></div><button type="button" id="refreshSharedSongs">↻ REFRESH CLOUD LIST</button></div>
+ <select id="sharedSongSelect" aria-label="Choose a shared song" style="width:100%;margin-top:10px;background:#10191d;color:#fff;border:1px solid #49605c;padding:10px;border-radius:8px"><option value="">Loading shared songs…</option></select>
+ <audio id="sharedSongPlayer" controls preload="none" playsinline style="display:block;width:100%;height:42px;margin-top:9px"></audio>
+ <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px"><button type="button" id="publishLocalSong">☁ PUBLISH SELECTED SONG</button><button type="button" id="removeSharedSong">✕ REMOVE FROM SHARED RADIO</button><span id="sharedRadioStatus" aria-live="polite" style="font-size:10px;color:#a9bbc2">Connect this project to Netlify to enable cloud sharing.</span></div>
+ <div style="font-size:10px;color:#93a7aa;margin-top:7px">Cloud sharing requires the Netlify Functions + Blobs setup in the project package. Only publish audio you own or have permission to redistribute. Upload limit: 25 MB per song. Private admin token is requested only for publishing/removing shared songs.</div>
+</section>
+<section id="careerPanel" style="margin-top:10px;padding:13px;border:1px solid #c8ff3d35;border-radius:12px;background:linear-gradient(110deg,#12231f,#0a151d);">
+ <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+  <div><div class="label" style="color:#c8ff3d">BUEA STREET CAREER</div><strong id="missionTitle" style="display:block;font-size:17px;margin-top:4px">Mission 1 · First Light</strong><div id="missionDesc" style="font-size:11px;color:#a9bbc2;margin-top:4px">Drive 1.5 km around the city without getting busted.</div></div>
+  <div style="display:flex;gap:14px;align-items:center"><div><div class="label">CREDITS</div><strong id="credits" style="font-size:19px">₵ 0</strong></div><div><div class="label">REP</div><strong id="rep" style="font-size:19px">0</strong></div></div>
+  <button id="careerStart" class="primary" style="min-width:130px;padding:10px 14px">START MISSION ↗</button>
+ </div>
+ <div style="height:6px;background:#26363b;border-radius:8px;overflow:hidden;margin-top:12px"><div id="missionBar" style="height:100%;width:0;background:linear-gradient(90deg,#3ee9ff,#c8ff3d)"></div></div>
+ <div style="display:flex;justify-content:space-between;gap:8px;margin-top:7px;color:#91a7b0;font-size:10px"><span id="missionProgress">Progress 0%</span><span id="garageUnlock">Garage: 5 starter cars</span></div>
+</section>
+<div class="stats">
+ <div class="stat"><div class="label">DISTANCE</div><strong id="distance">0.00 KM</strong></div>
+ <div class="stat"><div class="label">DRIVING STYLE</div><strong id="style">CLEAN RUN</strong></div>
+ <div class="stat"><div class="label">RACE TIMER</div><strong id="timer">00:00</strong></div>
+ <div class="stat"><div class="label">CONDITION</div><strong id="condition">READY</strong></div>
+</div>
+<p class="footer"><b>Controls:</b> hold ◀ / ▶ to steer · BRAKE to slow down · hold NITRO for a boost · hold DRIFT while turning to slide. Keyboard: A/D or ←/→ to steer, S/↓ to brake, Space for nitro, Shift for drift, C to change camera, P to pause. Engine and radio start after you tap their buttons. Import your own music files in Darlington’s Radio to play original recordings. Career progress is saved on this device. This is an original browser racing game; it is still a prototype rather than a commercial-scale Need for Speed equivalent.</p>
+</main>
+<script>
+(async()=>{
+const $=id=>document.getElementById(id),canvas=$('game');
+let THREE;
+try{THREE=await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js')}catch(e){
+ $('startscreen').innerHTML='<div class="startcard"><div class="eyebrow">3D ENGINE UNAVAILABLE</div><h2>CAN’T LOAD<br>THE TRACK</h2><p>Connect to the internet and reopen this game. The 3D graphics engine is loaded securely from a CDN.</p></div>';return;
+}
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x99c7de);scene.fog=new THREE.Fog(0x99c7de,55,235);
+const camera=new THREE.PerspectiveCamera(62,1,.1,450);camera.position.set(0,5.5,12.5);
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
+scene.add(new THREE.HemisphereLight(0xcceaff,0x263a2e,2.0));
+const sun=new THREE.DirectionalLight(0xffe8c2,3.1);sun.position.set(-30,50,18);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-25;sun.shadow.camera.right=25;sun.shadow.camera.top=30;sun.shadow.camera.bottom=-30;sun.shadow.bias=-0.00025;sun.shadow.normalBias=0.025;scene.add(sun);
+const mats={};
+function material(color,rough=.65,metal=0){return new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal})}
+mats.asphalt=material(0x242b31,.95);mats.grass=material(0x425e43);mats.line=material(0xe7e8d9);mats.edge=material(0xf0b94d);mats.dark=material(0x11171c,.35,.25);mats.glass=material(0x172e3b,.18,.55);mats.tire=material(0x090b0e,.94);mats.rim=material(0x9daab2,.24,.8);mats.tree=material(0x1b4933);mats.tree2=material(0x2f6c46);mats.trunk=material(0x59402b);mats.concrete=material(0x7d8988);mats.roof=material(0x653e38);mats.shop=material(0x9d9b87);mats.window=material(0x294a58,.2,.3);mats.yellow=material(0xffc83d,.45,.2);mats.skin=material(0xb97850,.82);mats.clothes1=material(0xe23d42,.78);mats.clothes2=material(0x2369bc,.78);mats.clothes3=material(0xf0c52e,.78);mats.clothes4=material(0xeeeeea,.78);mats.pants=material(0x242b36,.86);mats.phone=material(0x101418,.28,.25);
+const carColors={red:0xc91f2e,blue:0x1268ce,yellow:0xf2bf22,white:0xdfe5e7,green:0x227c54};
+let player,playerX=0,speed=0,score=0,distance=0,nitro=100,steer=0,brake=false,nitroDown=false,driftDown=false,drifting=false,driftScore=0,started=false,paused=false,night=false,elapsed=0,last=performance.now(),spawn=0,traffic=[],props=[],segments=[],roadSigns=[],roadsidePeople=[],cameraMode=0,soundEnabled=false,audioCtx=null,engineOsc=null,engineGain=null,skidOsc=null,skidGain=null,musicEnabled=false,musicMaster=null,musicTimer=null,musicStep=0,musicTrack=0,musicNodes=[],nextMusicTime=0;
+let lateralVelocity=0, missionActive=false, missionComplete=false, missionIndex=0, missionStartDistance=0, missionStartDrift=0, careerCredits=0, careerRep=0, missionBusted=false;
+const missions=[
+ {title:'Mission 1 · First Light',desc:'Drive 1.5 km around Buea without getting busted.',type:'distance',target:1500,reward:500,rep:50},
+ {title:'Mission 2 · Molyko Rush',desc:'Cover 2.5 km and score at least 1,500 points.',type:'scoreDistance',target:2500,score:1500,reward:900,rep:100},
+ {title:'Mission 3 · Slide School',desc:'Earn 800 drift points in one run.',type:'drift',target:800,reward:1200,rep:150},
+ {title:'Mission 4 · Checkpoint Heat',desc:'Survive a police pursuit for 60 seconds.',type:'survive',target:60,reward:1800,rep:225},
+ {title:'Mission 5 · Mount Cameroon Run',desc:'Drive 4 km and finish with at least 3,000 points.',type:'grand',target:4000,score:3000,reward:3000,rep:400}
+];
+try{const save=JSON.parse(localStorage.getItem('darlingtonRacingCareerV3')||'{}');careerCredits=save.credits||0;careerRep=save.rep||0;missionIndex=Math.min(save.mission||0,missions.length-1)}catch(e){}
+const lanes=[-3.25,0,3.25],roadNames=['MOLYKO DISTRICT','UNIVERSITY JUNCTION','MILE 17','ST CLAIRE','CHECK POINT','BIAKA','CENTRAL POLICE STATION','MEMOZ'];
+function mesh(geo,mat,x=0,y=0,z=0,parent=scene){const o=new THREE.Mesh(geo,mat);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o}
+function cube(w,h,d,mat,x,y,z,parent){return mesh(new THREE.BoxGeometry(w,h,d),mat,x,y,z,parent)}
+function createCar(color,type='sport',police=false){
+ const g=new THREE.Group(),body=material(color,.28,.42),darkGlass=material(0x102633,.16,.55),trim=material(0x15191d,.35,.65);
+ const suv=type==='suv',scale=suv?1.08:1;
+ cube(1.82*scale,.42,3.65*scale,body,0,.58,0,g);
+ // Sculpted hood and raised cabin, with a distinct nose and rear deck
+ cube(1.68*scale,.18,1.2*scale,body,0,.78,.98*scale,g);
+ cube(1.52*scale,.22,1.0*scale,body,0,.77,-1.23*scale,g);
+ const cabin=cube(suv?1.42:1.26,suv?.72:.58,suv?1.8:1.55,darkGlass,0,1.02,-.1,g);cabin.scale.x=1;
+ cube(1.38*scale,.12,.12,body,0,1.32,-.12,g);
+ // Front grille, split headlights and lower bumper
+ cube(.62,.18,.07,trim,0,.48,1.86*scale,g);
+ for(const x of [-.61,.61]){const lamp=material(0xf2f6ed,.18,.1);const light=cube(.38,.14,.1,lamp,x,.72,1.84*scale,g);light.userData.headlight=true;cube(.34,.1,.1,material(0xff273d),x,.63,-1.84*scale,g)}
+ // side skirts and mirrors
+ for(const x of [-.94,.94]){cube(.09,.15,2.25,trim,x,.4,0,g);cube(.18,.12,.24,body,x*1.04,.92,.45,g)}
+ // Racing spoiler, diffuser and rear lights
+ if(!suv){cube(1.55,.09,.17,trim,0,1.02,-1.66,g);cube(.12,.26,.13,trim,-.57,.91,-1.62,g);cube(.12,.26,.13,trim,.57,.91,-1.62,g)}
+ cube(1.3,.13,.2,trim,0,.36,-1.86*scale,g);
+ // Lower front splitter and side intake accents add a sportier silhouette.
+ cube(1.55,.08,.28,trim,0,.31,1.72*scale,g);
+ for(const sx of [-1,1]){cube(.08,.12,.52,material(0x59636a,.35,.55),sx*.91,.52,.15,g);cube(.035,.08,.45,material(0xe9eef0,.28,.35),sx*.98,.53,.15,g)}
+ const wheels=[];
+ for(const x of [-.94*scale,.94*scale])for(const z of [-1.18*scale,1.18*scale]){
+   const wheel=new THREE.Group();wheel.position.set(x,.37,z);g.add(wheel);
+   const tire=mesh(new THREE.CylinderGeometry(.36,.36,.23,20),mats.tire,0,0,0,wheel);tire.rotation.z=Math.PI/2;
+   const rim=mesh(new THREE.CylinderGeometry(.22,.22,.245,12),mats.rim,0,0,0,wheel);rim.rotation.z=Math.PI/2;
+   const hub=mesh(new THREE.CylinderGeometry(.09,.09,.25,12),trim,0,0,0,wheel);hub.rotation.z=Math.PI/2;
+   wheels.push(wheel);
+ }
+ if(police){cube(.64,.12,.24,material(0xf0f3f5),0,1.47,-.1,g);cube(.25,.11,.16,material(0x1679ff),-.17,1.57,-.1,g);cube(.25,.11,.16,material(0xff203a),.17,1.57,-.1,g)}
+ g.userData={wheels,body,headlights:[]};return g;
+}
+function createSpectator(x,z,variant=0){
+ const g=new THREE.Group();
+ const shirt=[mats.clothes1,mats.clothes2,mats.clothes3,mats.clothes4][variant%4];
+ const skin=mats.skin;
+ // Head, torso, legs and articulated arms; a small human silhouette readable from the driving camera.
+ mesh(new THREE.SphereGeometry(.19,12,10),skin,0,1.48,0,g);
+ mesh(new THREE.CylinderGeometry(.20,.27,.58,10),shirt,0,.98,0,g);
+ for(const lx of [-.12,.12]) mesh(new THREE.CylinderGeometry(.065,.08,.48,8),mats.pants,lx,.48,0,g);
+ const arms=[];
+ for(const side of [-1,1]){
+   const arm=new THREE.Group();arm.position.set(side*.22,1.18,0);g.add(arm);
+   mesh(new THREE.CylinderGeometry(.065,.075,.43,8),shirt,0,-.13,0,arm);
+   mesh(new THREE.SphereGeometry(.075,8,6),skin,0,-.36,0,arm);
+   arms.push(arm);
+ }
+ // Some spectators hold phones up; others wave both arms or clap.
+ let phone=null;
+ if(variant%3===1){phone=mesh(new THREE.BoxGeometry(.11,.18,.035),mats.phone,.27,1.57,.04,g)}
+ g.userData={arms,variant,phone,baseY:0,phase:Math.random()*6.28};g.position.set(x,0,z);scene.add(g);roadsidePeople.push(g);return g;
+}
+function populateSpectators(){
+ roadsidePeople.forEach(p=>scene.remove(p));roadsidePeople=[];
+ // Keep fans close to the shoulders of the road, spread into small cheering groups.
+ for(let i=0;i<64;i++){
+   const z=-i*11-20;
+   for(const side of [-1,1]){
+     if(i%4===1)continue;
+     const x=side*(6.8+Math.random()*1.25);
+     createSpectator(x,z+(Math.random()*2-1)*2,(i+(side>0?1:0))%4);
+   }
+ }
+}
+function createWorld(){
+ // Long road slabs recycle to create a convincing forward rush
+ for(let i=0;i<42;i++){const seg=new THREE.Group();seg.position.z=-i*9;scene.add(seg);cube(120,.15,9,mats.grass,0,-.19,0,seg);cube(11.5,.16,9,mats.asphalt,0,-.08,0,seg);cube(.14,.025,9,mats.line,-5.55,.02,0,seg);cube(.14,.025,9,mats.line,5.55,.02,0,seg);cube(.12,.026,4.2,mats.line,-1.82,.02,0,seg);cube(.12,.026,4.2,mats.line,1.82,.02,0,seg);cube(.22,.08,9,mats.edge,-5.8,-.005,0,seg);cube(.22,.08,9,mats.edge,5.8,-.005,0,seg);segments.push(seg)}
+ // Roadside town: trees, utility poles, shops, distant mountain silhouettes
+ for(let i=0;i<105;i++){
+  const z=-i*7.5-12;
+  for(const side of [-1,1]){
+   const x=side*(8+Math.random()*10);
+   if(i%3!==1){const t=new THREE.Group();cube(.35,2,.35,mats.trunk,0,1,0,t);mesh(new THREE.ConeGeometry(1.5,3.6,7),Math.random()>.5?mats.tree:mats.tree2,0,3.1,0,t);t.position.set(x,0,z);scene.add(t);props.push(t)}
+   if(i%5===0){const b=new THREE.Group(),w=3+Math.random()*3,h=2.6+Math.random()*3;cube(w,h,3,mats.shop,0,h/2,0,b);cube(w+.25,.22,3.2,mats.roof,0,h+.12,0,b);cube(.85,1.2,.08,mats.dark,0,.6,1.54,b);for(let j=0;j<2;j++)cube(.6,.7,.08,mats.window,-w*.25+j*w*.5,1.7,1.55,b);b.position.set(side*(14+Math.random()*6),0,z-3);scene.add(b);props.push(b)}
+   if(i%8===0){const pole=new THREE.Group();cube(.12,5,.12,mats.concrete,0,2.5,0,pole);cube(1.3,.12,.12,mats.concrete,side*.45,4.8,0,pole);const lamp=cube(.3,.12,.22,mats.yellow,side*.95,4.75,0,pole);pole.position.set(side*(7+Math.random()*2),0,z-2);scene.add(pole);props.push(pole)}
+  }
+  if(i%7===0){const sign=new THREE.Group();cube(2.8,.85,.12,material(0x086542),0,3.15,0,sign);cube(.12,2.5,.12,mats.dark,0,1.25,0,sign);sign.position.set(i%14===0?-7.4:7.4,0,z-7);sign.userData.name=roadNames[(i/7|0)%roadNames.length];scene.add(sign);const c=document.createElement('canvas');c.width=512;c.height=160;const ctx=c.getContext('2d');ctx.fillStyle='#086542';ctx.fillRect(0,0,512,160);ctx.strokeStyle='#eaf4e9';ctx.lineWidth=8;ctx.strokeRect(5,5,502,150);ctx.fillStyle='white';ctx.font='bold '+(sign.userData.name.length>17?'28':'38')+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(sign.userData.name,256,80);const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:tex}));sprite.scale.set(4.1,1.3,1);sprite.position.y=3.2;sign.add(sprite);roadSigns.push(sign)}
+ }
+ // Far mountain ridge, a visual nod to Mount Cameroon
+ for(let i=0;i<11;i++){const m=mesh(new THREE.ConeGeometry(16+Math.random()*9,30+Math.random()*20,5),material(i%2?0x54766e:0x6e8b83),-100+i*20,11,-160);m.rotation.y=Math.random()*1.5}
+ populateSpectators();
+ player=createCar(carColors[$('car').value],$('car').value==='green'?'suv':'sport');player.position.set(0,0,4);scene.add(player);
+}
+function rebuildPlayer(){if(player)scene.remove(player);player=createCar(carColors[$('car').value],$('car').value==='green'?'suv':'sport');player.position.set(playerX,0,4);scene.add(player)}
+function spawnTraffic(){const trafficLimit=$('mode').value==='police'?5:4;if(traffic.length>=trafficLimit)return;const lane=lanes[Math.random()*3|0],col=[0xf2eee4,0x176ac7,0xd02b36,0xe7b52a,0x303941,0x2d8758][Math.random()*6|0],car=createCar(col,Math.random()<.18?'suv':'sport');car.position.set(lane,0,-135-Math.random()*45);scene.add(car);traffic.push({obj:car,lane,spd:Math.random()*18+10,police:false});if($('mode').value==='police'&&traffic.length<5&&Math.random()<.035){const cop=createCar(0xf2f3ef,'sport',true);cop.position.set(lanes[Math.random()*3|0],0,-170);scene.add(cop);traffic.push({obj:cop,lane:cop.position.x,spd:25,police:true})}}
+function saveCareer(){try{localStorage.setItem('darlingtonRacingCareerV3',JSON.stringify({credits:careerCredits,rep:careerRep,mission:missionIndex}))}catch(e){}}
+function currentMission(){return missions[Math.min(missionIndex,missions.length-1)]}
+function refreshCareer(){
+ const m=currentMission();$('missionTitle').textContent=missionIndex>=missions.length?'Career Complete · Street Legend':m.title;
+ $('missionDesc').textContent=missionIndex>=missions.length?'You conquered the Buea Street Series. Keep driving and build your score.':m.desc;
+ $('credits').textContent='₵ '+careerCredits.toLocaleString();$('rep').textContent=careerRep.toLocaleString();
+ $('garageUnlock').textContent=careerRep>=500?'Garage: Legend status unlocked':careerRep>=225?'Garage: Pro driver status':'Garage: '+(5+Math.floor(careerRep/100))+' starter rides';
+ $('careerStart').textContent=missionIndex>=missions.length?'FREE DRIVE ↗':'START MISSION ↗';
+ $('missionBar').style.width=(missionIndex>=missions.length?100:0)+'%';$('missionProgress').textContent=missionIndex>=missions.length?'All career missions completed':'Mission '+(missionIndex+1)+' of '+missions.length;
+}
+function start(){
+ started=true;paused=false;speed=0;score=0;distance=0;nitro=100;elapsed=0;playerX=0;lateralVelocity=0;player.position.x=0;driftScore=0;missionBusted=false;
+ traffic.forEach(t=>scene.remove(t.obj));traffic=[];$('startscreen').style.display='none';$('condition').textContent='DRIVING';$('pause').textContent='Ⅱ PAUSE';$('score').textContent='000000';last=performance.now();
+ missionActive=$('mode').value==='career';missionComplete=false;missionStartDistance=0;missionStartDrift=0;
+ if(missionActive){$('condition').textContent='CAREER RUN';if(missionIndex===3){$('mode').value='police';$('condition').textContent='PURSUIT MISSION'}}if(musicEnabled&&audioCtx&&musicMaster){audioCtx.resume();musicMaster.gain.setTargetAtTime(.22,audioCtx.currentTime,.25)}
+}
+function pauseGame(){if(!started)return;paused=!paused;$('pause').textContent=paused?'▶ RESUME':'Ⅱ PAUSE';$('condition').textContent=paused?'PAUSED':'DRIVING'}
+function finish(title){started=false;$('condition').textContent='FINISHED';$('startscreen').style.display='flex';$('startscreen').innerHTML='<div class="startcard"><div class="eyebrow">SESSION COMPLETE</div><h2>'+title+'</h2><p>Score '+Math.floor(score).toLocaleString()+' · Distance '+(distance/1000).toFixed(2)+' km</p><button class="primary" id="again">RACE AGAIN ↗</button></div>';$('again').onclick=start}
+function completeMission(){
+ if(!missionActive||missionComplete)return;const m=currentMission();missionComplete=true;careerCredits+=m.reward;careerRep+=m.rep;missionIndex=Math.min(missionIndex+1,missions.length);saveCareer();refreshCareer();
+ started=false;$('condition').textContent='MISSION WON';
+ $('startscreen').style.display='flex';$('startscreen').innerHTML='<div class="startcard"><div class="eyebrow">BUEA STREET SERIES · MISSION COMPLETE</div><h2>ROAD<br>MASTERED.</h2><p>'+m.title+' complete.<br>Reward: ₵ '+m.reward.toLocaleString()+' · Reputation +'+m.rep+'<br>Total score: '+Math.floor(score).toLocaleString()+'</p><button class="primary" id="again">NEXT MISSION ↗</button></div>';
+ $('again').onclick=()=>{if(missionIndex>=missions.length){$('mode').value='free';start()}else{$('mode').value='career';start()}};
+}
+function updateMission(){
+ if(!missionActive||missionComplete)return;const m=currentMission();let progress=0,done=false;
+ if(m.type==='distance'){progress=distance/m.target;done=distance>=m.target}
+ if(m.type==='scoreDistance'){progress=Math.min(distance/m.target,score/m.score);done=distance>=m.target&&score>=m.score}
+ if(m.type==='drift'){progress=driftScore/m.target;done=driftScore>=m.target}
+ if(m.type==='survive'){progress=elapsed/m.target;done=elapsed>=m.target}
+ if(m.type==='grand'){progress=Math.min(distance/m.target,score/m.score);done=distance>=m.target&&score>=m.score}
+ $('missionBar').style.width=(Math.max(0,Math.min(100,progress*100)))+'%';$('missionProgress').textContent='Progress '+Math.floor(Math.min(100,progress*100))+'%';
+ if(done)completeMission();
+}
+function update(dt){
+ if(!started||paused)return;elapsed+=dt;
+ const boost=nitroDown&&nitro>0&&!brake;drifting=driftDown&&Math.abs(steer)>.1&&speed>42&&!brake;const target=brake?0:boost?235:150;speed+=(target-speed)*Math.min(1,dt*(brake?2.5:.48));
+ if(boost)nitro=Math.max(0,nitro-31*dt);else nitro=Math.min(100,nitro+8*dt);
+ const carHandling=$('car').value==='green'?1.18:$('car').value==='blue'?.92:$('car').value==='yellow'?1.04:1;
+ const grip=drifting?0.42:1.25; lateralVelocity+=steer*dt*(34+speed*.12)*carHandling; lateralVelocity*=Math.exp(-grip*dt);
+ playerX=THREE.MathUtils.clamp(playerX+lateralVelocity*dt,-4.45,4.45);
+ if(Math.abs(playerX)>=4.4)lateralVelocity*=-.22;
+ player.position.x+=(playerX-player.position.x)*Math.min(1,dt*14);player.rotation.z=-steer*(drifting?.14:.065)-lateralVelocity*.009;player.rotation.y=-steer*(drifting?.24:.09);if(drifting){driftScore+=Math.abs(steer)*speed*dt*1.8;score+=Math.abs(steer)*speed*dt*1.2;}
+ const move=speed/3.6*dt;
+ for(const seg of segments){seg.position.z+=move;if(seg.position.z>13)seg.position.z-=378}
+ for(const p of props){p.position.z+=move;if(p.position.z>20)p.position.z-=787.5}
+ for(const p of roadsidePeople){p.position.z+=move;if(p.position.z>20)p.position.z-=704;const phase=elapsed*3.1+p.userData.phase;const arms=p.userData.arms;if(p.userData.variant%3===0){arms[0].rotation.z=Math.sin(phase)*.85-.35;arms[1].rotation.z=-Math.sin(phase)*.85+.35}else if(p.userData.variant%3===1){arms[0].rotation.z=-.95+Math.sin(phase)*.08;arms[1].rotation.z=.55+Math.sin(phase)*.12}else{arms[0].rotation.z=-.35+Math.sin(phase)*.65;arms[1].rotation.z=.35-Math.sin(phase)*.65}p.position.y=Math.max(0,Math.sin(phase*2)*.035)}
+ for(const s of roadSigns){s.position.z+=move;if(s.position.z>20)s.position.z-=787.5}
+ spawn+=dt;if(spawn>Math.max(3.2,4.4-speed/190)){spawn=0;spawnTraffic()}
+ for(const t of traffic){t.obj.position.z+=move*(1+t.spd/70);for(const w of t.obj.userData.wheels)w.rotation.x+=move*.25;if(t.obj.position.z>18){t.obj.position.z=-155-Math.random()*100;const choices=lanes.filter(l=>Math.abs(l-playerX)>1.7);t.obj.position.x=choices.length&&Math.random()<.72?choices[Math.random()*choices.length|0]:lanes[Math.random()*3|0];t.lane=t.obj.position.x;t.spd=Math.random()*22+12}
+  if(Math.abs(t.obj.position.z-4)<3.0&&Math.abs(t.obj.position.x-playerX)<1.55){if(t.police){if(missionActive){missionBusted=true;started=false;$('condition').textContent='BUSTED';$('startscreen').style.display='flex';$('startscreen').innerHTML='<div class="startcard"><div class="eyebrow">PURSUIT FAILED</div><h2>BUSTED.</h2><p>Reset and try the mission again. Your career credits and reputation are safe.</p><button class="primary" id="again">RETRY MISSION ↗</button></div>';$('again').onclick=start;return}else{finish('BUSTED!');return}}else{speed*=.38;score=Math.max(0,score-200);t.obj.position.z=-80;$('condition').textContent='COLLISION';setTimeout(()=>{if(started)$('condition').textContent='DRIVING'},700)}}
+ }
+ for(const w of player.userData.wheels)w.rotation.x+=move*.35;
+ distance+=move;score+=speed*dt*(boost?1.5:.65);
+ if($('mode').value==='race'&&distance>3000){finish('RACE WON!');return}
+ if($('mode').value==='time'&&elapsed>90){finish('TIME ATTACK');return}
+ if($('mode').value==='police'&&elapsed>100){if(missionActive){completeMission();return}else{finish('ESCAPED!');return}}
+ $('speed').textContent=String(Math.round(speed)).padStart(3,'0');$('score').textContent=String(Math.floor(score)).padStart(6,'0');$('distance').textContent=(distance/1000).toFixed(2)+' KM';$('nitrofill').style.width=nitro+'%';$('nitrotext').textContent=Math.round(nitro)+'%';$('place').textContent='📍 '+roadNames[Math.floor(distance/340)%roadNames.length];$('timer').textContent=String(Math.floor(elapsed/60)).padStart(2,'0')+':'+String(Math.floor(elapsed%60)).padStart(2,'0');$('style').textContent=drifting?'DRIFT '+Math.floor(driftScore).toLocaleString():boost?'NITRO RUN':Math.abs(steer)>.5?'HARD CORNER':'CLEAN RUN';
+ updateMission();
+ if(audioCtx&&engineOsc){const f=65+speed*1.45+(boost?38:0);engineOsc.frequency.setTargetAtTime(f,audioCtx.currentTime,.07);engineGain.gain.setTargetAtTime(soundEnabled&&started&&!paused?.045:0,audioCtx.currentTime,.08);if(musicMaster)musicMaster.gain.setTargetAtTime(musicEnabled&&started&&!paused?.22:0,audioCtx.currentTime,.2);if(skidGain)skidGain.gain.setTargetAtTime(soundEnabled&&drifting?.045:0,audioCtx.currentTime,.05);}
+ const targetCam=[{x:playerX*.35,y:6.4,z:14.5},{x:playerX*.18,y:3.7,z:8.8},{x:playerX*.25,y:2.6,z:5.0}][cameraMode];camera.position.x+=(targetCam.x-camera.position.x)*Math.min(1,dt*2.4);camera.position.y+=(targetCam.y+(speed/235)*1.1-camera.position.y)*Math.min(1,dt*2);camera.position.z=targetCam.z;camera.lookAt(playerX*.25,cameraMode===2?1.05:.6,cameraMode===2?-14:-8);
+}
+function resize(){const r=$('stage').getBoundingClientRect();renderer.setSize(r.width,r.height-0,false);camera.aspect=r.width/(r.height);camera.updateProjectionMatrix()}
+function render(now){requestAnimationFrame(render);const dt=Math.min(.045,(now-last)/1000||.016);last=now;update(dt);renderer.render(scene,camera)}
+function hold(id,on,off){const b=$(id);b.addEventListener('pointerdown',e=>{e.preventDefault();on();b.setPointerCapture(e.pointerId)});const release=()=>off();b.addEventListener('pointerup',release);b.addEventListener('pointercancel',release);b.addEventListener('lostpointercapture',release)}
+hold('left',()=>steer=-1,()=>{if(steer===-1)steer=0});hold('right',()=>steer=1,()=>{if(steer===1)steer=0});hold('brake',()=>brake=true,()=>brake=false);hold('nitro',()=>nitroDown=true,()=>nitroDown=false);hold('drift',()=>driftDown=true,()=>driftDown=false);
+window.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowDown',' '].includes(e.key))e.preventDefault();if(e.key==='ArrowLeft'||e.key.toLowerCase()==='a')steer=-1;if(e.key==='ArrowRight'||e.key.toLowerCase()==='d')steer=1;if(e.key==='ArrowDown'||e.key.toLowerCase()==='s')brake=true;if(e.code==='Space')nitroDown=true;if(e.key==='Shift')driftDown=true;if(e.key.toLowerCase()==='c')cycleCamera();if(e.key.toLowerCase()==='p')pauseGame()});
+window.addEventListener('keyup',e=>{if((e.key==='ArrowLeft'||e.key.toLowerCase()==='a')&&steer===-1)steer=0;if((e.key==='ArrowRight'||e.key.toLowerCase()==='d')&&steer===1)steer=0;if(e.key==='ArrowDown'||e.key.toLowerCase()==='s')brake=false;if(e.code==='Space')nitroDown=false;if(e.key==='Shift')driftDown=false});
+$('start').onclick=start;$('restart').onclick=start;$('pause').onclick=pauseGame;$('car').onchange=rebuildPlayer;
+$('mode').onchange=()=>{$('condition').textContent='READY';if($('mode').value==='career'){$('missionDesc').textContent=currentMission().desc;$('careerStart').textContent='START MISSION ↗'}};
+$('careerStart').onclick=()=>{$('mode').value=missionIndex>=missions.length?'free':'career';start()};
+refreshCareer();
+function cycleCamera(){cameraMode=(cameraMode+1)%3;$('camera').textContent='◉ CAMERA: '+['CHASE','CINEMATIC','CLOSE'][cameraMode]}
+$('camera').onclick=cycleCamera;
+const radioStyles=[
+ {name:'NIGHT DRIVE',bpm:108,scale:[0,3,5,7,10],root:110,wave:'triangle'},
+ {name:'NEON RUN',bpm:124,scale:[0,2,4,7,9],root:98,wave:'sawtooth'},
+ {name:'COASTLINE BEAT',bpm:96,scale:[0,2,5,7,9],root:123.47,wave:'sine'},
+ {name:'STREET PULSE',bpm:116,scale:[0,3,5,8,10],root:103.83,wave:'square'}
+];
+function ensureAudio(){if(!audioCtx){const AudioCtor=window.AudioContext||window.webkitAudioContext;if(!AudioCtor)throw new Error('Web Audio is not supported');audioCtx=new AudioCtor();engineOsc=audioCtx.createOscillator();engineOsc.type='sawtooth';engineGain=audioCtx.createGain();engineGain.gain.value=0;const filter=audioCtx.createBiquadFilter();filter.type='lowpass';filter.frequency.value=430;engineOsc.connect(filter);filter.connect(engineGain);engineGain.connect(audioCtx.destination);engineOsc.start();skidOsc=audioCtx.createOscillator();skidOsc.type='triangle';skidOsc.frequency.value=900;skidGain=audioCtx.createGain();skidGain.gain.value=0;const skidFilter=audioCtx.createBiquadFilter();skidFilter.type='highpass';skidFilter.frequency.value=550;skidOsc.connect(skidFilter);skidFilter.connect(skidGain);skidOsc.start();musicMaster=audioCtx.createGain();musicMaster.gain.value=0.32;musicMaster.connect(audioCtx.destination)}if(audioCtx.state==='suspended'){const resumed=audioCtx.resume();if(resumed&&resumed.catch)resumed.catch(()=>{});}}
+function stopMusic(){musicEnabled=false;if(musicTimer){clearInterval(musicTimer);musicTimer=null}musicNodes.forEach(n=>{try{n.stop()}catch(e){}});musicNodes=[];if(musicMaster&&audioCtx)musicMaster.gain.setTargetAtTime(0,audioCtx.currentTime,.2);$('music').textContent='▶ RANDOM RADIO: OFF';$('music').dataset.on='0';$('trackName').textContent='RADIO · OFF'}
+function playNote(freq,time,duration,wave,vol,filterHz=2200){if(!audioCtx||!musicMaster)return;const osc=audioCtx.createOscillator(),gain=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();osc.type=wave;osc.frequency.setValueAtTime(freq,time);filter.type='lowpass';filter.frequency.setValueAtTime(filterHz,time);gain.gain.setValueAtTime(.0001,time);gain.gain.linearRampToValueAtTime(vol,time+.018);gain.gain.exponentialRampToValueAtTime(.0001,time+duration);osc.connect(filter);filter.connect(gain);gain.connect(musicMaster);osc.start(time);osc.stop(time+duration+.04);musicNodes.push(osc);if(musicNodes.length>100)musicNodes.splice(0,musicNodes.length-80)}
+function musicBeat(){if(!musicEnabled||!audioCtx||paused)return;const st=radioStyles[musicTrack],beat=60/st.bpm,now=audioCtx.currentTime+.03;for(let i=0;i<4;i++){const t=now+i*beat;const step=musicStep+i;const scale=st.scale[(Math.floor(step/2)+Math.floor(Math.random()*2))%st.scale.length];if(step%4===0){playNote(st.root*.5,t,.18,'sine',.34,170);playNote(48,t,.075,'sine',.13,120)}if(step%4===2)playNote(st.root*1.5,t,.11,'triangle',.08,900);if(step%2===0){const octave=step%8===0?2:1;playNote(st.root*Math.pow(2,octave)*Math.pow(2,scale/12),t,.22,st.wave,.075,1900);playNote(st.root*Math.pow(2,2)*Math.pow(2,st.scale[(Math.floor(step/2)+2)%st.scale.length]/12),t+beat*.5,.12,'triangle',.045,2500)}if(step%4===2){playNote(1600+Math.random()*700,t,.045,'square',.025,4000)}}musicStep+=4;}
+function startRandomRadio(){ensureAudio();musicEnabled=true;musicTrack=Math.floor(Math.random()*radioStyles.length);musicStep=0;nextMusicTime=performance.now();musicMaster.gain.setTargetAtTime(.32,audioCtx.currentTime,.12);$('music').dataset.on='1';$('music').textContent='♫ RANDOM RADIO: ON';$('trackName').textContent='NOW PLAYING · '+radioStyles[musicTrack].name;musicBeat();if(musicTimer)clearInterval(musicTimer);musicTimer=setInterval(()=>{if(!musicEnabled||!audioCtx)return;if(paused){if(musicMaster)musicMaster.gain.setTargetAtTime(0,audioCtx.currentTime,.15);return}if(audioCtx.state==='suspended'){const resumed=audioCtx.resume();if(resumed&&resumed.catch)resumed.catch(()=>{});}musicMaster.gain.setTargetAtTime(.32,audioCtx.currentTime,.12);if(performance.now()-nextMusicTime>32000){musicTrack=(musicTrack+1+Math.floor(Math.random()*(radioStyles.length-1)))%radioStyles.length;musicStep=0;nextMusicTime=performance.now();$('trackName').textContent='NOW PLAYING · '+radioStyles[musicTrack].name}musicBeat()},Math.max(900,4*(60/radioStyles[musicTrack].bpm)*1000));}
+const songFilesInput=$('songFiles'),songSelect=$('songSelect'),realSongPlayer=$('realSongPlayer');
+const requestedSongs=[['Rema','Calm Down'],['Kocee','Go Na Go'],['NBA YoungBoy','Shot Callin'],['X Maleya','Son Me'],['Davido','Nakupenda'],['Wizkid','Money Constant']];
+const onlineSongs=[
+ {artist:'Rema',title:'Calm Down',url:'https://www.youtube.com/watch?v=CQLsdm1ZYAw'},
+ {artist:'Kocee',title:'Go Na Go',url:'https://www.youtube.com/results?search_query=Kocee+Go+Na+Go+official'},
+ {artist:'NBA YoungBoy',title:'Shot Callin',url:'https://www.youtube.com/results?search_query=NBA+YoungBoy+Shot+Callin+official'},
+ {artist:'X Maleya',title:'Son Me',url:'https://www.youtube.com/results?search_query=X+Maleya+Son+Me+official'},
+ {artist:'Davido ft. Zlatan',title:'Nakupenda',url:'https://www.youtube.com/results?search_query=Davido+Zlatan+Nakupenda+official'},
+ {artist:'Wizkid ft. Mavo',title:'Money Constant',url:'https://www.youtube.com/results?search_query=Wizkid+Mavo+Money+Constant+official'}
+];
+const onlineSongList=$('onlineSongList');onlineSongs.forEach((song,i)=>{const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px;background:#0b1318;border:1px solid #33454b;border-radius:9px';const title=document.createElement('div');title.style.cssText='font-size:11px;line-height:1.4';title.innerHTML='<b style="color:#c8ff3d">'+(i+1)+'. '+song.artist+'</b><br>'+song.title;const btn=document.createElement('button');btn.type='button';btn.textContent='▶ LISTEN ONLINE';btn.style.cssText='font-size:10px;padding:8px;white-space:nowrap';btn.addEventListener('click',()=>window.open(song.url,'_blank','noopener'));row.append(title,btn);onlineSongList.appendChild(row)});
+let importedSongs=[],currentSongUrls=[];
+const removeSongBtn=$('removeSong'),songStorageStatus=$('songStorageStatus');
+const SONG_DB='darlingtonRacingAudioLibrary',SONG_STORE='songs';
+let songDb=null;
+function openSongDb(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window)){reject(new Error('Persistent browser storage is unavailable'));return}const req=indexedDB.open(SONG_DB,1);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(SONG_STORE))db.createObjectStore(SONG_STORE,{keyPath:'id',autoIncrement:true})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error('Could not open song storage'))})}
+function dbRequest(mode,work){return new Promise((resolve,reject)=>{if(!songDb){reject(new Error('Song storage is not ready'));return}const tx=songDb.transaction(SONG_STORE,mode),store=tx.objectStore(SONG_STORE);let req;try{req=work(store)}catch(e){reject(e);return}let result; if(req){req.onsuccess=()=>{result=req.result};req.onerror=()=>reject(req.error)}tx.oncomplete=()=>resolve(result);tx.onerror=()=>reject(tx.error||new Error('Song storage failed'));tx.onabort=()=>reject(tx.error||new Error('Song storage was interrupted'))})}
+function songLabel(file){const n=file.name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ').toLowerCase();const match=requestedSongs.find(([artist,title])=>n.includes(artist.toLowerCase())||n.includes(title.toLowerCase()));return match?match[0]+' — '+match[1]:file.name.replace(/\.[^.]+$/,'')}
+function rebuildSongList(preferredId=null){currentSongUrls.forEach(u=>URL.revokeObjectURL(u));currentSongUrls=[];songSelect.innerHTML='';if(!importedSongs.length){songSelect.innerHTML='<option value="">No saved songs — choose IMPORT SONGS</option>';realSongPlayer.removeAttribute('src');realSongPlayer.load();$('trackName').textContent='RADIO · NO IMPORTED SONGS';removeSongBtn.disabled=true;return}removeSongBtn.disabled=false;importedSongs.forEach((entry,i)=>{const opt=document.createElement('option');opt.value=String(i);opt.textContent=(i+1)+'. '+songLabel({name:entry.name});songSelect.appendChild(opt);currentSongUrls.push(URL.createObjectURL(entry.blob))});let index=preferredId==null?0:importedSongs.findIndex(x=>x.id===preferredId);if(index<0)index=0;songSelect.value=String(index);playImportedSong(index,false);songStorageStatus.textContent=importedSongs.length+' song'+(importedSongs.length===1?'':'s')+' saved on this device.'}
+async function loadSavedSongs(){try{songDb=await openSongDb();importedSongs=await dbRequest('readonly',store=>store.getAll());rebuildSongList();songStorageStatus.textContent=importedSongs.length?importedSongs.length+' saved song'+(importedSongs.length===1?'':'s')+' restored from this device.':'No songs saved yet. Import songs to build your permanent-in-this-browser playlist.'}catch(e){console.error(e);songStorageStatus.textContent='Persistent storage unavailable here. Open the game from its HTTPS Netlify website and try again.';songSelect.innerHTML='<option value="">Storage unavailable — open the HTTPS game site</option>'}}
+songFilesInput.addEventListener('change',async()=>{const files=Array.from(songFilesInput.files||[]).filter(f=>f.type.startsWith('audio/')||/\.(mp3|m4a|wav|ogg|aac|flac)$/i.test(f.name));songFilesInput.value='';if(!files.length)return;try{if(!songDb)songDb=await openSongDb();let lastId=null;for(const file of files){lastId=await dbRequest('readwrite',store=>store.add({name:file.name,type:file.type||'audio/mpeg',blob:file,addedAt:Date.now()}))}importedSongs=await dbRequest('readonly',store=>store.getAll());rebuildSongList(lastId);songStorageStatus.textContent='Saved '+files.length+' new song'+(files.length===1?'':'s')+'. Total: '+importedSongs.length+'.';}catch(e){console.error(e);songStorageStatus.textContent='Could not save songs. Your browser storage may be full; try fewer/smaller files.';alert('The songs could not be saved permanently. Try importing fewer or smaller audio files, and make sure you are using the game on its HTTPS website rather than a temporary file preview.')}});
+function playImportedSong(index,autoplay=false){if(!importedSongs[index])return;stopMusic();realSongPlayer.src=currentSongUrls[index];realSongPlayer.volume=1;realSongPlayer.load();$('trackName').textContent='TRACK '+(index+1)+' · '+songLabel({name:importedSongs[index].name});$('music').textContent='♫ SAVED SONGS';$('music').dataset.on='1';if(autoplay)realSongPlayer.play().catch(()=>{$('trackName').textContent='TAP PLAY · '+songLabel({name:importedSongs[index].name})})}
+songSelect.addEventListener('change',()=>{if(songSelect.value!==''&&importedSongs[Number(songSelect.value)])playImportedSong(Number(songSelect.value),true)});
+removeSongBtn.addEventListener('click',async()=>{const index=Number(songSelect.value);const entry=importedSongs[index];if(!entry)return;if(!confirm('Remove “'+songLabel({name:entry.name})+'” from your saved playlist?'))return;try{await dbRequest('readwrite',store=>store.delete(entry.id));importedSongs=await dbRequest('readonly',store=>store.getAll());rebuildSongList();songStorageStatus.textContent='Song removed. Remaining saved songs: '+importedSongs.length+'.'}catch(e){console.error(e);songStorageStatus.textContent='Could not remove this song from saved storage.'}});
+realSongPlayer.addEventListener('ended',()=>{if(!importedSongs.length)return;const next=(Number(songSelect.value||0)+1)%importedSongs.length;songSelect.value=String(next);playImportedSong(next,true)});
+$('music').onclick=()=>{if(importedSongs.length){if(!realSongPlayer.paused){realSongPlayer.pause();$('music').textContent='▶ RADIO: PAUSED'}else{if(!realSongPlayer.src)playImportedSong(Number(songSelect.value||0));realSongPlayer.play().then(()=>{$('music').textContent='♫ RADIO: PLAYING'}).catch(()=>{$('trackName').textContent='TAP PLAY ON THE AUDIO PLAYER'})}}else{try{if(musicEnabled){stopMusic()}else{startRandomRadio()}}catch(e){$('trackName').textContent='AUDIO NOT AVAILABLE'}}};
+const sharedSongSelect=$('sharedSongSelect'),sharedSongPlayer=$('sharedSongPlayer'),sharedRadioStatus=$('sharedRadioStatus');
+let sharedSongs=[],sharedAdminToken='';
+const SHARED_API='/api/shared-songs';
+async function refreshSharedSongs(keepId=null){try{const response=await fetch(SHARED_API,{cache:'no-store'});if(!response.ok)throw new Error('Cloud endpoint not available');const data=await response.json();sharedSongs=Array.isArray(data.songs)?data.songs:[];sharedSongSelect.innerHTML='';if(!sharedSongs.length){sharedSongSelect.innerHTML='<option value="">No songs published to the shared radio yet</option>';sharedRadioStatus.textContent='Cloud is connected; no shared songs have been published yet.';return}for(const song of sharedSongs){const opt=document.createElement('option');opt.value=song.id;opt.textContent=song.name;sharedSongSelect.appendChild(opt)}sharedSongSelect.value=(keepId&&sharedSongs.some(x=>x.id===keepId))?keepId:sharedSongs[0].id;sharedRadioStatus.textContent=sharedSongs.length+' shared song'+(sharedSongs.length===1?'':'s')+' available to everyone on this game link.';}catch(e){sharedSongSelect.innerHTML='<option value="">Cloud radio not configured on this deployment</option>';sharedRadioStatus.textContent='Shared cloud is not connected yet. Deploy the included Netlify project package to enable it.'}}
+function playSharedSong(){const song=sharedSongs.find(x=>x.id===sharedSongSelect.value);if(!song)return;sharedSongPlayer.src=SHARED_API+'?id='+encodeURIComponent(song.id);sharedSongPlayer.load();sharedSongPlayer.play().catch(()=>{sharedRadioStatus.textContent='Tap PLAY on the audio player to start the shared song.'})}
+async function getSharedAdminToken(){if(sharedAdminToken)return sharedAdminToken;const value=prompt('Enter the site owner’s shared-radio admin token. This is required only to publish or remove songs from the shared playlist.');if(!value)return '';sharedAdminToken=value;return value}
+async function publishAudioFile(file){const token=await getSharedAdminToken();if(!token)return false;const form=new FormData();form.append('file',file,file.name);const response=await fetch(SHARED_API,{method:'POST',headers:{Authorization:'Bearer '+token},body:form});const result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(result.error||'Upload failed');await refreshSharedSongs(result.song?.id);return true}
+$('refreshSharedSongs').addEventListener('click',()=>refreshSharedSongs(sharedSongSelect.value));
+sharedSongSelect.addEventListener('change',playSharedSong);
+$('publishLocalSong').addEventListener('click',async()=>{const entry=importedSongs[Number(songSelect.value)];if(!entry){sharedRadioStatus.textContent='First select a song in the local playlist above.';return}try{sharedRadioStatus.textContent='Uploading '+entry.name+' to the shared cloud…';const file=new File([entry.blob],entry.name,{type:entry.type||'audio/mpeg'});const ok=await publishAudioFile(file);if(ok)sharedRadioStatus.textContent='Published. Everyone opening this same game link can now see the song.';}catch(e){sharedRadioStatus.textContent=e.message||'Could not publish the song.';sharedAdminToken='';}});
+$('removeSharedSong').addEventListener('click',async()=>{const song=sharedSongs.find(x=>x.id===sharedSongSelect.value);if(!song)return;if(!confirm('Remove “'+song.name+'” from the shared playlist for everyone?'))return;try{const token=await getSharedAdminToken();if(!token)return;const response=await fetch(SHARED_API+'?id='+encodeURIComponent(song.id),{method:'DELETE',headers:{Authorization:'Bearer '+token}});const result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(result.error||'Remove failed');sharedSongPlayer.pause();sharedSongPlayer.removeAttribute('src');await refreshSharedSongs();sharedRadioStatus.textContent='Removed from the shared playlist for everyone.';}catch(e){sharedRadioStatus.textContent=e.message||'Could not remove shared song.';sharedAdminToken='';}});
+refreshSharedSongs();
+loadSavedSongs();
+$('sound').onclick=()=>{try{ensureAudio();const enabled=$('sound').dataset.on!=='1';soundEnabled=enabled;$('sound').dataset.on=enabled?'1':'0';$('sound').textContent=enabled?'♫ ENGINE: ON':'♫ ENGINE: OFF';if(!enabled){engineGain.gain.setTargetAtTime(0,audioCtx.currentTime,.05);skidGain.gain.setTargetAtTime(0,audioCtx.currentTime,.05)}else if(engineGain){engineGain.gain.setTargetAtTime(started&&!paused?.045:0,audioCtx.currentTime,.08)}}catch(e){$('sound').textContent='ENGINE UNAVAILABLE'}};$('drift').title='Hold while steering at speed to drift';
+$('night').onclick=()=>{night=!night;$('night').textContent=night?'☀ DAYLIGHT':'☾ NIGHT LIGHTS';scene.background.set(night?0x081322:0x99c7de);scene.fog.color.set(night?0x081322:0x99c7de);sun.intensity=night?.5:3.1;scene.children.filter(o=>o.isHemisphereLight).forEach(o=>o.intensity=night?.55:2);renderer.toneMappingExposure=night?.75:1.15};
+createWorld();resize();window.addEventListener('resize',resize);render(performance.now());
+})().catch(e=>{console.error(e);document.getElementById('condition').textContent='ERROR'});
+</script>
+</body>
+</html>

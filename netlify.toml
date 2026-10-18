@@ -1,0 +1,8 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/shared-songs"
+  to = "/.netlify/functions/shared-songs"
+  status = 200

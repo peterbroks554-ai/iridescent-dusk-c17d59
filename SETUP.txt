@@ -1,0 +1,26 @@
+DARLINGTON'S RACING — SHARED RADIO DEPLOYMENT
+
+WHAT THIS DOES
+- A shared cloud playlist stored by Netlify Blobs.
+- Everyone opening the same deployed game URL sees the same published tracks, regardless of device/browser.
+- Only someone with the RADIO_ADMIN_TOKEN can publish or remove tracks from the shared playlist.
+- Tracks imported in the local playlist remain local until the owner uses “PUBLISH SELECTED SONG”.
+- Only upload audio you own or have permission to redistribute. Do not publish copyrighted recordings without the necessary rights.
+
+IMPORTANT: THIS REQUIRES DEPLOYMENT; a standalone HTML file cannot synchronize songs globally by itself.
+
+DEPLOY STEPS
+1. Download and unzip this entire project folder.
+2. Upload/deploy the folder to Netlify as a site (not just the index.html file). Netlify must install the dependency in package.json and deploy netlify/functions/shared-songs.mjs.
+3. In Netlify, open Site configuration / Environment variables and add:
+   RADIO_ADMIN_TOKEN = a long, private, random password you choose.
+   Do not put this token in the HTML or share it with players.
+4. Trigger a fresh deploy after adding the environment variable.
+5. Open the deployed HTTPS site. Import songs into the local playlist, then select one and press “PUBLISH SELECTED SONG”. Enter the RADIO_ADMIN_TOKEN when prompted. Repeat for each track.
+6. Share that same deployed URL. Other players can refresh the shared list and play tracks. They do not need the admin token.
+
+NOTES
+- Netlify Blobs storage belongs to this deployed site. Re-deploying the same site should keep its Blobs data; deleting the site/storage or changing to a different site can make the shared library unavailable.
+- Upload limit is 25 MB per track in this starter implementation.
+- Cloud storage/bandwidth may be subject to the hosting provider's limits and pricing.
+- Do not use a publicly shared admin token. If it is exposed, rotate RADIO_ADMIN_TOKEN in Netlify.
